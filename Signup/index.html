@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 400px;
+        margin: 20px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .button {
+        padding: 8px;
+        border-radius: 3px;
+      }
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form">
+      <div class="field">
+        <input type="text" id="UsernameInput" placeholder="Username">
+      </div>
+      <div class="field">
+        <input type="text" id="PasswordInput">
+      </div>
+    </div>
+    <button id="RedeemButton" onclick="Signup()">Sign Up</button>
+  </body>
+  <script>
+    function Signup() {
+      const username = document.getElementById("UsernameInput")
+      if !(username.value === "") {
+        if (localStorage.getItem(JSON.stringify(username.value))) {
+          alert("Username already taken.")
+        } else {
+          localStorage.setItem(JSON.stringify(username.value), username)
+          alert("Signup successful.")
+        }
+      } else {
+        alert("Enter a valid username.")
+      }
+    }
+  </script>
+</html>
