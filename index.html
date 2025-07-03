@@ -52,15 +52,22 @@
   <input type="text" id="SearchBar" name="SearchBar" placeholder="Enter URL or keyword">
   <button onclick="search()">Search!</button>
   <label for="SearchBar">Search here!</label>
+  <div id="historyContainer" style="margin: 20px;"></div>
   <script>
     window.URLPatch = "https://";
     alert("You are on: " + window.location.href);
     function search() {
       const textbox = document.getElementById("SearchBar");
+      const query = textbox.value.trim();
       if (textbox.value !== "") {
+        let history = JSON.parse(sessionStorage.getItem("searchHistory") || "[]");
+        history.unshift(query);
+        history.slice(0, 10)
+        sessionStorage.setItem("searchHistory", JSON.stringify(history))
+        
         if (textbox.value === "partner !j") {
-          window.location.href = "https://discord.gg/D6sJ6FJ2"
-          return
+          window.location.href = "https://discord.gg/D6sJ6FJ2";
+          return;
         }
         if (textbox.value.includes("https://") || textbox.value.includes("http://")) {
           window.location.href = textbox.value;
@@ -90,8 +97,24 @@
         document.body.style.color = "black";
       }
     }
+    function showHistory() {
+      const history = JSON.parse(sessionStorage.getItem("searchHistory") || "[]");
+      const container = document.getElementById("historyContainer");
+      if (history.length === 0) {
+        container.innerHTML = "<em>No recent searches.</em>"; 
+        return;
+      }
+      container.innerHTML = "<strong>Recent Searches:</strong><ul style='margin-top: 5px;'>";
+      history.forEach((entry) => {
+        container.innerHTML += `<li><a href="#" onclick="reSearch('${entry}')">${entry}</a></li>`;
+      });   
+      container.innerHTML += "</ul>";
+    }
+    function reSearch(query) {
+      document.getElementById("SearchBar").value = query;
+      search(); 
+    }
     window.onload = function () {
-      // Theme apply
       const darkmode = localStorage.getItem("theme");
       applyTheme(darkmode);
       // Prefix apply
@@ -105,8 +128,8 @@
       } else {
         window.URLPatch = "https://";
       }
+      showHistory();
     };
-    // 🔁 Listen for dark mode changes from other tabs
     window.addEventListener("storage", function (event) {
       if (event.key === "theme") {
         applyTheme(event.newValue);
