@@ -28,6 +28,43 @@
       border-radius: 4px;
       cursor: pointer;
     }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 28px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
     </style>
 </head>
 <body>
@@ -41,6 +78,11 @@
   <option value="http://">http://</option>
   <option value="ftp://">ftp://</option>
 </select>
+<label class="switch">
+  <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+  <span class="slider"></span>
+  Dark mode
+</label>
 <script>
   function updateBaseURL() {
     const dropdown = document.getElementById("prefix");
@@ -51,6 +93,26 @@
   function returnToSearch() {
     window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/";
   }
+  function toggleTheme() {
+    const isOn = document.getElementById("themeSwitch").checked;
+    if (isOn) {
+      document.body.style.backgroundColor = "#333";
+      document.body.style.color = "white";
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.style.backgroundColor = "#ffffff";
+      document.body.style.color = "black";
+      localStorage.setItem("theme", "light");
+    }
+  }
+  window.onload = function () {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.getElementById("themeSwitch").checked = true;
+      document.body.style.backgroundColor = "black";
+      document.body.style.color = "white";
+    }
+  };
 </script>
 </body>
 </html>
