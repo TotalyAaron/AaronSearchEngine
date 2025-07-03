@@ -2,26 +2,73 @@
 <html>
 <head>
   <title>ASE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 60px; /* Prevent overlap by top bar */
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #27F4d1;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .top-button {
+      background-color: #1cb3a1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .top-button:hover {
+      background-color: #148c7f;
+    }
+    #SearchBar {
+      padding: 8px;
+      margin: 20px;
+    }
+    button {
+      padding: 8px 12px;
+    }
+  </style>
 </head>
 <body>
-  <input type="textbox" id="SearchBar" name="SearchBar">
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div><strong>Options</strong></div>
+    <button class="top-button" onclick="switchToSettings()">Settings</button>
+  </div>
+  <!-- SEARCH BAR -->
+  <input type="text" id="SearchBar" name="SearchBar" placeholder="Enter URL or keyword">
   <button onclick="search()">Search!</button>
   <label for="SearchBar">Search here!</label>
+  <script>
+    window.URLPatch = "https://";
+    alert("You are on: " + window.location.href);
+    function search() {
+      const textbox = document.getElementById("SearchBar");
+      if (textbox.value !== "") {
+        if (textbox.value.includes("https://") || textbox.value.includes("http://")) {
+          window.location.href = textbox.value;
+        } else {
+          const newURL = window.URLPatch + textbox.value;
+          window.location.href = newURL;
+        }
+      } else {
+        alert("Enter something.");
+      }
+    }
+    function switchToSettings() {
+      window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Settings/"
+    }
+  </script>
 </body>
-<script>
- window.URLPatch = "https://"
- function search() {
-   const textbox = document.getElementById("SearchBar")
-   if (textbox.value !== "") {
-     if (textbox.value.includes("https://") || textbox.value.includes("http://")) {
-       window.location.href = textbox.value
-     } else {
-       var newURL = window.URLPatch + textbox.value
-       window.location.href = newURL
-     }
-   } else {
-     alert("Enter something.")
-   }
- }
-</script>
 </html>
