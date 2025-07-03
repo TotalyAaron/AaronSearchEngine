@@ -44,8 +44,9 @@
 <script>
   function updateBaseURL() {
     const dropdown = document.getElementById("prefix");
-    window.URLPatch = dropdown.value;
-    console.log("Base URL changed to:", window.URLPatch);
+    const prefix = dropdown.value;
+    window.URLBase = prefix;
+    localStorage.setItem("URLBase", prefix);
   }
 </script>
 </body>
