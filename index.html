@@ -69,6 +69,15 @@
     function switchToSettings() {
       window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Settings/"
     }
+    window.onload = function () {
+      const savedPrefix = localStorage.getItem("URLBase");
+      if (savedPrefix) {
+        window.URLBase = savedPrefix;
+        document.getElementById("prefix").value = savedPrefix; // 👈 Restore dropdown
+      } else {
+        window.URLBase = "https://"; // default
+      }
+    };
   </script>
 </body>
 </html>
