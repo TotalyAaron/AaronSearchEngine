@@ -6,7 +6,7 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding-top: 60px; /* Prevent overlap by top bar */
+      padding-top: 60px;
     }
     .top-bar {
       position: fixed;
@@ -67,32 +67,39 @@
       }
     }
     function switchToSettings() {
-      window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Settings/"
+      window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Settings/";
+    }
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.body.style.backgroundColor = "#333333";
+        document.body.style.color = "white";
+      } else {
+        document.body.style.backgroundColor = "#ffffff";
+        document.body.style.color = "black";
+      }
     }
     window.onload = function () {
+      // Theme apply
+      const darkmode = localStorage.getItem("theme");
+      applyTheme(darkmode);
+      // Prefix apply
       const savedPrefix = localStorage.getItem("URLBase");
       if (savedPrefix) {
-        window.URLBase = savedPrefix;
-        document.getElementById("prefix").value = savedPrefix; // 👈 Restore dropdown
+        window.URLPatch = savedPrefix;
+        const prefixDropdown = document.getElementById("prefix");
+        if (prefixDropdown) {
+          prefixDropdown.value = savedPrefix;
+        }
       } else {
-        window.URLBase = "https://"; // default
-      }
-      const darkmode = localStorage.getItem("theme")
-      window.addEventListener("storage", function (event) {
-        if (event.key === "theme") {
-          applyTheme(event.newValue);
-        }
-      });
-      function applyTheme(theme) {
-        if (theme === "dark") {
-          document.body.style.backgroundColor = "#333333";
-          document.body.style.color = "white";
-        } else {
-          document.body.style.backgroundColor = "#ffffff";
-          document.body.style.color = "black";
-        }
+        window.URLPatch = "https://";
       }
     };
+    // 🔁 Listen for dark mode changes from other tabs
+    window.addEventListener("storage", function (event) {
+      if (event.key === "theme") {
+        applyTheme(event.newValue);
+      }
+    });
   </script>
 </body>
 </html>
