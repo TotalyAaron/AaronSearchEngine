@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ASE</title>
+</head>
+<body>
+  <input type="textbox" id="SearchBar" name="SearchBar">
+  <button onclick="search()">Search!</button>
+  <label for="SearchBar">Search here!</label>
+</body>
+<script>
+ window.URLPatch = "https://"
+ function search() {
+   const textbox = document.getElementById("SearchBar")
+   if (textbox.value !== "") {
+     if (textbox.value.includes("https://") || textbox.value.includes("http://")) {
+       window.location.href = textbox.value
+     } else {
+       var newURL = window.URLPatch + textbox.value
+       window.location.href = newURL
+     }
+   } else {
+     alert("Enter something.")
+   }
+ }
+</script>
+</html>
