@@ -78,10 +78,10 @@
         window.URLBase = "https://"; // default
       }
       const darkmode = localStorage.getItem("theme")
-      if darkmode === "dark" {
+      if (darkmode === "dark") {
         document.body.style.backgroundColor = "#333333"
       } else {
-        document.body.style.backgroundColor = "ffffff"
+        document.body.style.backgroundColor = "#ffffff"
       }
     };
   </script>
