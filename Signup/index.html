@@ -42,7 +42,7 @@
   <script>
     function Signup() {
       const username = document.getElementById("UsernameInput")
-      if !(username.value === "") {
+      if (username.value !== "") {
         if (localStorage.getItem(JSON.stringify(username.value))) {
           alert("Username already taken.")
         } else {
