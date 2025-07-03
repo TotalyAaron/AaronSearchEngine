@@ -45,6 +45,7 @@
   <div class="top-bar">
     <div><strong>Options</strong></div>
     <button class="top-button" onclick="switchToSettings()">Settings</button>
+    <button class="top-button" onclick="joinDiscord()">Discord</button>
   </div>
   <!-- SEARCH BAR -->
   <input type="text" id="SearchBar" name="SearchBar" placeholder="Enter URL or keyword">
@@ -68,6 +69,9 @@
     }
     function switchToSettings() {
       window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Settings/";
+    }
+    function joinDiscord() {
+      window.location.href = "https://discord.gg/3BD6FAB6"
     }
     function applyTheme(theme) {
       if (theme === "dark") {
