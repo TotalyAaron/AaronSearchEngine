@@ -78,11 +78,13 @@
   <option value="http://">http://</option>
   <option value="ftp://">ftp://</option>
 </select>
-<label class="switch">
-  <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
-  <span class="slider"></span>
-  Dark mode
-</label>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+  <label for="themeSwitch">Dark Mode</label>
+  <label class="switch">
+    <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+    <span class="slider"></span>
+  </label>
+</div>
 <script>
   function updateBaseURL() {
     const dropdown = document.getElementById("prefix");
