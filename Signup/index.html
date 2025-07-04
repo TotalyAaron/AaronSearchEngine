@@ -7,6 +7,7 @@
   <body>
     <h2>Signup/Login</h2>
     <input id="email" type="email" placeholder="Email"><br>
+    <input id="username" type="text" placeholder="Username"><br>
     <input id="password" type="password" placeholder="Password"><br>
     <button onclick="signup()">Sign Up</button>
     <button onclick="login()">Log In</button>
@@ -17,17 +18,27 @@
       );
       async function signup() {
         const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        const { data, error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { username }
+          }
+        });
         if (error) alert("Signup error: " + error.message);
         else alert("Signup success! Check email if confirmation required.");
       }
       async function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
         if (error) alert("Login error: " + error.message);
-        else alert("Login success! Token: " + data.session.access_token);
+        else alert("Login success!");
       }
     </script>
   </body>
