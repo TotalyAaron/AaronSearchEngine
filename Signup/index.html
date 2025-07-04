@@ -1,57 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      .form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        max-width: 400px;
-        margin: 20px;
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-      }
-      .button {
-        padding: 8px;
-        border-radius: 3px;
-      }
-      label {
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-      input {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="form">
-      <div class="field">
-        <input type="text" id="UsernameInput" placeholder="Username">
-      </div>
-      <div class="field">
-        <input type="text" id="PasswordInput">
-      </div>
-    </div>
-    <button id="RedeemButton" onclick="Signup()">Sign Up</button>
-  </body>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <h2>Signup / Login</h2>
+  <input id="email" placeholder="Email" type="email"><br>
+  <input id="password" placeholder="Password" type="password"><br>
+  <button onclick="signup()">Sign Up</button>
+  <button onclick="login()">Log In</button>
+  <button onclick="getProfile()">Get Profile (token check)</button>
   <script>
-    function Signup() {
-      const username = document.getElementById("UsernameInput")
-      if (username.value !== "") {
-        if (localStorage.getItem(JSON.stringify(username.value))) {
-          alert("Username already taken.")
-        } else {
-          localStorage.setItem(JSON.stringify(username.value), username)
-          alert("Signup successful.")
-        }
+    const supabase = supabase.createClient(
+      'https://aiwtakptjfgexjqqwngg.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd3Rha3B0amZnZXhqcXF3bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTQ4ODYsImV4cCI6MjA2NzEzMDg4Nn0.SjOqAhCZ-CQPj4k7cDMwGTL1GT-GOQ6spfp4g1FqsEc'
+    );
+    async function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) alert("Error: " + error.message);
+      else alert("Signup successful! Check email if confirm is required.");
+    }
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        alert("Login failed: " + error.message);
       } else {
-        alert("Enter a valid username.")
+        alert("Logged in! Access token:\n" + data.session.access_token);
+        localStorage.setItem("supabaseToken", data.session.access_token);
+      }
+    }
+    async function getProfile() {
+      const { data: user, error } = await supabase.auth.getUser();
+      if (error) {
+        alert("Not logged in or token expired");
+      } else {
+        alert("Hello, " + user.user.email);
       }
     }
   </script>
+</body>
 </html>
