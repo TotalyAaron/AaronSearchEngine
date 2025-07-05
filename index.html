@@ -122,6 +122,17 @@
         }
       }
     }
+    function showRealProfile() {
+      window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Profile/";
+    }
+    function logOut() {
+      const username = localStorage.getItem("username");
+      if (username) {
+        localStorage.removeItem("username");
+      } else {
+        alert("You are not logged in.");
+      }
+    }
     function applyTheme(theme) {
       if (theme === "dark") {
         document.body.style.backgroundColor = "#333333";
