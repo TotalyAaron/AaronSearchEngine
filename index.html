@@ -8,6 +8,21 @@
       margin: 0;
       padding-top: 60px;
     }
+    .dropdown {
+      background-color: #f1f1f1;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 150px;
+    }
+    .dropdown p {
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    .dropdown p:hover {
+      background-color: #ddd;
+    }
     .top-bar {
       position: fixed;
       top: 0;
@@ -48,7 +63,12 @@
     <button class="top-button" onclick="joinDiscord()">Discord</button>
     <button class="top-button" onclick="moveToRequest()">Request</button>
     <button class="top-button" onclick="moveToSignUp()">Sign up</button>
-    <div class="profile-circle">A</div>
+    <button class="top-button" onclick="showProfile()">Profile</button>
+  </div>
+  <div id="dropdownMenu" class="dropdown" style="display: none;">
+    <p onclick="showRealProfile()">🔹 Profile</p>
+    <p onclick="logOut()">🔒 Logout</p>
+    <p onclick="switchToSettings()">⚙️ Settings</p>
   </div>
   <!-- SEARCH BAR -->
   <input type="text" id="SearchBar" name="SearchBar" placeholder="Enter URL or keyword">
@@ -66,7 +86,6 @@
         history.unshift(query);
         history.slice(0, 10)
         sessionStorage.setItem("searchHistory", JSON.stringify(history))
-        
         if (textbox.value === "partner !j") {
           window.location.href = "https://discord.gg/D6sJ6FJ2";
           return;
@@ -92,6 +111,16 @@
     }
     function moveToSignUp() {
       window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Signup/"
+    }
+    function showProfile() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = (menu.style.display === "none") ? "block" : "none";
+      window.onclick = function(event) {
+        const menu = document.getElementById("dropdownMenu");
+        if (!event.target.matches('button')) {
+          menu.style.display = "none";
+        }
+      }
     }
     function applyTheme(theme) {
       if (theme === "dark") {
