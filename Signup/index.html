@@ -52,22 +52,31 @@
           alert("Error saving username: " + insertError.message);
         } else {
           alert("Signup successful!");
-          localStorage.setItem("username", userId)
+          localStorage.setItem("username", username)
           localStorage.setItem("email", email)
           window.location.href = "https://totalyaaron.github.io/AaronSearchEngine"
         }
       }
       async function login() {
-        const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password
         });
-        if (error) alert("Login error: " + error.message);
-        else alert("Login success!");
-        localStorage.setItem("username", data.user.id)
-        localStorage.setItem("email", email)
+        if (error) {
+          alert("Login error: " + error.message);
+          return;
+        }
+        const user = data.user;
+        const username = user.user_metadata?.username;
+        if (!username) {
+          alert("This account has no username saved.");
+          return;
+        }
+        localStorage.setItem("username", username);
+        localStorage.setItem("email", email);
+        alert("Login success!");
         window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/";
       }
     </script>
