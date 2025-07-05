@@ -16,19 +16,45 @@
         'https://aiwtakptjfgexjqqwngg.supabase.co',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd3Rha3B0amZnZXhqcXF3bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTQ4ODYsImV4cCI6MjA2NzEzMDg4Nn0.SjOqAhCZ-CQPj4k7cDMwGTL1GT-GOQ6spfp4g1FqsEc'
       );
+      async function isUsernameTaken(username) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("username")
+          .eq("username", username)
+          .single();
+        return data !== null;
+      }
       async function signup() {
         const email = document.getElementById("email").value;
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
+        if (!email || !username || !password) {
+          alert("Please fill in all fields.");
+          return;
+        }
+        if (await isUsernameTaken(username)) {
+          alert("Username already taken.");
+          return;
+        }
         const { data, error } = await supabase.auth.signUp({
           email,
-          password,
-          options: {
-            data: { username }
-          }
+          password
         });
-        if (error) alert("Signup error: " + error.message);
-        else alert("Signup success! Check email if confirmation required.");
+        if (error) {
+          alert("Signup error: " + error.message);
+          return;
+        }
+        const userId = data.user.id;
+        const { error: insertError } = await supabase.from("users").insert([
+          { id: userId, username }
+        ]);
+        if (insertError) {
+          alert("Error saving username: " + insertError.message);
+        } else {
+          alert("Signup successful!");
+          localStorage.setItem("username", userId)
+          window.location.href = "https://totalyaaron.github.io/AaronSearchEngine"
+        }
       }
       async function login() {
         const email = document.getElementById("email").value;
