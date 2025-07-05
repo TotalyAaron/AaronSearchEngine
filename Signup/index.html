@@ -9,8 +9,10 @@
     <input id="email" type="email" placeholder="Email"><br>
     <input id="username" type="text" placeholder="Username"><br>
     <input id="password" type="password" placeholder="Password"><br>
-    <button onclick="signup()">Sign Up</button>
-    <button onclick="login()">Log In</button>
+    <button onclick="signup()">Sign Up (DO NOT!)</button>
+    <button onclick="login()">Log In(NO!)</button>
+    <button onclick="signUpSafe()">Sign up safely</button>
+    <button onclick="logInSafe()">Log in safely</button>
     <script>
       const supabase = window.supabase.createClient(
         'https://aiwtakptjfgexjqqwngg.supabase.co',
@@ -60,6 +62,22 @@
           window.location.href = "https://totalyaaron.github.io/AaronSearchEngine"
         }
       }
+      function signUpSafe() {
+        if (localStorage.getItem("username")) {
+          alert("On this device, account already created.");
+          return;
+        }
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const username = document.getElementById("username").value;
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", password);
+        localStorage.setItem("username", username);
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("email", email);
+        alert("Success!");
+        window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/";
+      }
       async function login() {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
@@ -82,6 +100,20 @@
         alert("Login success!");
         alert(username + " " + email + " " + password + " " + user.id)
         window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/";
+      }
+      function logInSafe() {
+        const email = document.getElementById("email")
+        const password = document.getElementById("password")
+        const username = document.getElementById("username")
+        var confEmail = localStorage.getItem("email")
+        var confPassword = localStorage.getItem("password")
+        var confUsername = localStorage.getItem("username")
+        if ((email == confEmail && password = confPassword) && username == confUsername) {
+          alert("Logged in!")
+          sessionStorage.setItem("email", email)
+          sessionStorage.setItem("username", username)!
+          window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/"
+        }
       }
     </script>
   </body>
