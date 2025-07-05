@@ -74,7 +74,7 @@
         const user = data.user;
         const username = user.user_metadata?.username;
         if (!username) {
-          alert("This account has no username saved.");
+          alert("No username found. Try signing up again.");
           return;
         }
         localStorage.setItem("username", username);
