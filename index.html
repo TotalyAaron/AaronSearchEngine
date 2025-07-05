@@ -126,9 +126,9 @@
       window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/Profile/";
     }
     function logOut() {
-      const username = localStorage.getItem("username");
+      const username = sessionStorage.getItem("username");
       if (username) {
-        localStorage.removeItem("username");
+        sessionStorage.clear()
       } else {
         alert("You are not logged in.");
       }
