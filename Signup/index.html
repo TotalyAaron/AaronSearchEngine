@@ -53,6 +53,7 @@
         } else {
           alert("Signup successful!");
           localStorage.setItem("username", userId)
+          localStorage.setItem("email", email)
           window.location.href = "https://totalyaaron.github.io/AaronSearchEngine"
         }
       }
@@ -65,6 +66,8 @@
         });
         if (error) alert("Login error: " + error.message);
         else alert("Login success!");
+        localStorage.setItem("username", data.user.id)
+        localStorage.setItem("email", email)
         window.location.href = "https://totalyaaron.github.io/AaronSearchEngine/";
       }
     </script>
